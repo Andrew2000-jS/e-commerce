@@ -1,0 +1,21 @@
+{
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+      "prefer-optional-chain": "off",
+      "prefer-nullish-coalescing": "off",
+      "@typescript-eslint/no-misused-promises": 0,
+      "@typescript-eslint/strict-boolean-expressions": 0,
+      "@typescript-eslint/no-floating-promises":0,
+      "@typescript-eslint/restrict-template-expressions": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/promise-function-async": "off",
+      "@typescript-eslint/space-before-function-paren": "off",
+      "@typescript-eslint/indent": "off"
+    },
+    "extends": [
+      "./node_modules/ts-standard/eslintrc.json"
+    ]
+  
+}
