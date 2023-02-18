@@ -6,7 +6,8 @@
   "scripts": {
     "dev:login": "NODE_ENV=development tsc-watch --onSuccess \"nodemon dist/apps/login/start.js\"",
     "test": "NODE_ENV=test vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -41,5 +42,10 @@
   },
   "eslintConfig": {
     "extends": "./node_modules/ts-standard/eslintrc.json"
+  },
+  "lint-staged": {
+    "*.{ts}": [
+      "eslint . --fix"
+    ]
   }
 }
