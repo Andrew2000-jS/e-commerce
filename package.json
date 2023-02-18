@@ -44,7 +44,7 @@
     "extends": "./node_modules/ts-standard/eslintrc.json"
   },
   "lint-staged": {
-    "*.{ts}": [
+    "*.ts": [
       "eslint . --fix"
     ]
   }
