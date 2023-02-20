@@ -19,6 +19,7 @@
     "noUnusedParameters": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
+    "typeRoots": ["src/@types"],
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "baseUrl": "./src",
@@ -26,8 +27,8 @@
       "@/*": ["*"]
     },
     "rootDir": "./src",
-    "declaration": true,
+    "declaration": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules", "./dist"]
+  "include": ["./src/**/**/*.ts", "index.d.ts", "src/test/**/*"],
+  "exclude": ["node_modules", "./dist", "coverage"]
 }
