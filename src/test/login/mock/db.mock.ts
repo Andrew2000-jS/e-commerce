@@ -49,4 +49,9 @@ export class MockDb implements UserRepository {
 
         return Promise.resolve(foundUser)
     }
+
+    findByPhone(phone: string): Promise<UserEntity | undefined> {
+        const foundUser = this.db.find(x => phone === x.phone)
+        return Promise.resolve(foundUser)
+    }
 }

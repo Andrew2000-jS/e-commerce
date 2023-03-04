@@ -1,4 +1,5 @@
 import { UserEntity, UserRepository, IsUserExistService } from '@/login/contexts/domain'
+import { Crypter, emailParser, namesParser, passwordParser, phoneParser } from '@/login/shared'
 
 export class UserCreator {
     private readonly _userRepository: UserRepository
@@ -10,17 +11,21 @@ export class UserCreator {
     }
 
     async create(user: UserEntity): Promise<UserEntity> {
+        const crypter = new Crypter()
+
         const newUser: UserEntity = {
-            name: user.name,
-            lastName: user.lastName,
-            email: user.email,
+            name: namesParser(user.name),
+            lastName: namesParser(user.lastName),
+            email: emailParser(user.email),
             avatar: user.avatar,
             gender: user.gender,
-            password: user.password,
-            phone: user.phone
+            password: passwordParser(user.password),
+            phone: phoneParser(user.phone)
         }
 
-        await this._isUserExistService.isExist(newUser.email)
+        newUser.password = await crypter.encrypt(newUser.password)
+
+        await this._isUserExistService.isExist(newUser.email, newUser.phone)
 
         const createUser = await this._userRepository.create(newUser)
         return createUser

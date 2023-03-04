@@ -8,9 +8,19 @@ enum Genders {
 export const newUser: UserEntity = {
     name: 'Jhon',
     lastName: 'Doe',
-    phone: 1234567,
+    phone: '12345678',
     email: 'jhondoe@mail.com',
     avatar: 'https://vitest.dev/logo.svg',
     gender: Genders.Male,
-    password: 'abc@123'
+    password: 'Abc@1234'
+}
+
+export const updatedUser: UserEntity = {
+    name: 'Bill',
+    lastName: 'Doe',
+    phone: '12345678',
+    email: 'billdoe@mail.com',
+    avatar: 'https://vitest.dev/logo.svg',
+    gender: Genders.Male,
+    password: 'Abc@1234'
 }

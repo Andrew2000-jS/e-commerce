@@ -6,4 +6,5 @@ export interface UserRepository {
     update: (user: UserEntity, id: number) => Promise<UserEntity>
     findById: (id: number) => Promise<UserEntity | undefined>
     findByEmail: (email: string) => Promise<UserEntity | undefined>
+    findByPhone: (phone: string) => Promise<UserEntity | undefined>
 }

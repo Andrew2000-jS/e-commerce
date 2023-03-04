@@ -4,7 +4,7 @@ export interface UserEntity {
     name: string
     lastName: string
     email: string
-    phone: number
+    phone: string
     password: string
     avatar: string
     gender: Genders
