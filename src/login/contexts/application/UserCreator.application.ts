@@ -12,6 +12,7 @@ export class UserCreator {
 
     async create(user: UserEntity): Promise<UserEntity> {
         const crypter = new Crypter()
+        const pass = await crypter.encrypt(passwordParser(user.password))
 
         const newUser: UserEntity = {
             name: namesParser(user.name),
@@ -19,11 +20,9 @@ export class UserCreator {
             email: emailParser(user.email),
             avatar: user.avatar,
             gender: user.gender,
-            password: passwordParser(user.password),
+            password: pass,
             phone: phoneParser(user.phone)
         }
-
-        newUser.password = await crypter.encrypt(newUser.password)
 
         await this._isUserExistService.isExist(newUser.email, newUser.phone)
 

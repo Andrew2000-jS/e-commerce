@@ -22,5 +22,5 @@ export const updatedUser: UserEntity = {
     email: 'billdoe@mail.com',
     avatar: 'https://vitest.dev/logo.svg',
     gender: Genders.Male,
-    password: 'Abc@1234'
+    password: 'ABC!22223333'
 }
