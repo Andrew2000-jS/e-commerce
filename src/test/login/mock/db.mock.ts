@@ -14,7 +14,7 @@ export class MockDb implements UserRepository {
     }
 
     delete(id: number): Promise<void> {
-        this.db.filter((_, i) => i !== id)
+        this.db = this.db.filter((_, i) => i !== id)
         return Promise.resolve()
     }
 

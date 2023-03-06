@@ -1,31 +1,38 @@
 {
-    "parserOptions": {
-        "project": "./tsconfig.json",
-        "ecmaVersion": "latest",
-        "EXPERIMENTAL_useSourceOfProjectReferenceRedirect": true
-    },
-    "overrides": [
-      {
-        "files":["./test/**/*", "./vitest.config.ts"],
-        "excludedFiles": ["test/mock/db/db.mock.ts"]
-      }
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": "latest",
+    "EXPERIMENTAL_useSourceOfProjectReferenceRedirect": true
+  },
+  "overrides": [
+    {
+      "files": [
+        "./test/**/*",
+        "./vitest.config.ts"
+      ],
+      "excludedFiles": [
+        "test/mock/db/db.mock.ts"
+      ]
+    }
+  ],
+  "rules": {
+    "max-len": [
+      "error",
+      140
     ],
-    "rules": {
-      "max-len": ["error", 140],
-      "prefer-optional-chain": "off",
-      "prefer-nullish-coalescing": "off",
-      "@typescript-eslint/no-misused-promises": 0,
-      "@typescript-eslint/strict-boolean-expressions": 0,
-      "@typescript-eslint/no-floating-promises":0,
-      "@typescript-eslint/restrict-template-expressions": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/promise-function-async": "off",
-      "@typescript-eslint/space-before-function-paren": "off",
-      "@typescript-eslint/indent": "off",
-      "@typescript-eslint/consistent-type-definitions": "off"
-    },
-    "extends": [
-      "./node_modules/ts-standard/eslintrc.json"
-    ]
-  
+    "prefer-optional-chain": "off",
+    "prefer-nullish-coalescing": "off",
+    "@typescript-eslint/no-misused-promises": 0,
+    "@typescript-eslint/strict-boolean-expressions": 0,
+    "@typescript-eslint/no-floating-promises": 0,
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/promise-function-async": "off",
+    "@typescript-eslint/space-before-function-paren": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/consistent-type-definitions": "off"
+  },
+  "extends": [
+    "./node_modules/ts-standard/eslintrc.json"
+  ]
 }
