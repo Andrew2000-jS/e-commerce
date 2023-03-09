@@ -1,4 +1,4 @@
-import { UserRepository, UserEntity, UserAlreadyException } from '@/login/contexts/domain'
+import { UserRepository, User, UserAlreadyException } from '@/login/contexts/domain'
 
 export class IsUserExistService {
     private readonly _userRepository: UserRepository
@@ -7,7 +7,7 @@ export class IsUserExistService {
         this._userRepository = userRepo
     }
 
-    async isExist(email: string, phone: string): Promise<UserEntity | undefined> {
+    async isExist(email: string, phone: string): Promise<User | undefined> {
         const foundUser = await this._userRepository.findByEmail(email)
         const findByPhone = await this._userRepository.findByPhone(phone)
 

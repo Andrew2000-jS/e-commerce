@@ -1,10 +1,17 @@
-import { UserRepository, UserEntity, UserNotFoundException, UserAlreadyException } from '@/login/contexts/domain'
+import {
+    UserRepository,
+    UserNotFoundException,
+    UserAlreadyException,
+    User
+} from '@/login/contexts/domain'
 
 export class MockDb implements UserRepository {
-    db: UserEntity[] = []
+    db: User[] = []
 
-    create(user: UserEntity): Promise<UserEntity> {
-        const findUser = !!this.db.find(u => u.email === user.email)
+    create(user: User): Promise<User> {
+        const findUser = !!this.db.find(
+            (u) => u.email._value === user.email._value
+        )
         if (findUser) {
             throw new UserAlreadyException()
         }
@@ -18,40 +25,30 @@ export class MockDb implements UserRepository {
         return Promise.resolve()
     }
 
-    update(user: UserEntity, id: number): Promise<UserEntity> {
-        const oldUserData = this.db.find((_, i) => i === id)
+    update(user: User, id: number): Promise<User> {
         const usersList = this.db.filter((_, i) => i !== id)
-
-        const updateUser: UserEntity = {
-            name: user.name ?? oldUserData?.name,
-            lastName: user.lastName ?? oldUserData?.lastName,
-            email: user.email ?? oldUserData?.email,
-            phone: user.phone ?? oldUserData?.phone,
-            password: user.password ?? oldUserData?.password,
-            avatar: user.avatar ?? oldUserData?.avatar,
-            gender: user.gender ?? oldUserData?.gender
-        }
-
-        usersList.push(updateUser)
+        usersList.push(user)
         this.db = usersList
-        return Promise.resolve(updateUser)
+        return Promise.resolve(user)
     }
 
-    findByEmail(email: string): Promise<UserEntity | undefined> {
-        const foundUser = this.db.find(x => email === x.email)
+    findByEmail(email: string): Promise<User | undefined> {
+        const foundUser = this.db.find((x) => email === x.email._value)
         return Promise.resolve(foundUser)
     }
 
-    findById(id: number): Promise<UserEntity | undefined> {
+    findById(id: number): Promise<User | undefined> {
         const foundUser = this.db.find((_, i) => id === i)
 
-        if (foundUser === undefined) { throw new UserNotFoundException() }
+        if (foundUser === undefined) {
+            throw new UserNotFoundException()
+        }
 
-        return Promise.resolve(foundUser)
+        return Promise.resolve(new User(foundUser))
     }
 
-    findByPhone(phone: string): Promise<UserEntity | undefined> {
-        const foundUser = this.db.find(x => phone === x.phone)
+    findByPhone(phone: string): Promise<User | undefined> {
+        const foundUser = this.db.find((x) => phone === x.phone._value)
         return Promise.resolve(foundUser)
     }
 }

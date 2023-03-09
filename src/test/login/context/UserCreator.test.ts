@@ -8,8 +8,8 @@ describe('UserCreator', () => {
         const userCreator = new UserCreator(loginMockDb)
 
         await userCreator.create(newUser)
-        const findUser = loginMockDb.db.find(u => u.email === newUser.email)
-        expect(findUser?.name).toBe(newUser.name)
+        const findUser = loginMockDb.db.find(u => u.email._value === newUser.email)
+        expect(findUser?.name._value).toBe(newUser.name)
     })
 
     describe('Fail cases', () => {
@@ -32,14 +32,14 @@ describe('UserCreator', () => {
             const userCreator = new UserCreator(loginMockDb)
 
             newUser.name = 'bob@'
-            await expect(userCreator.create(newUser)).rejects.toThrow(/special characters not allowed/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided name or last name are not valid/)
             newUser.name = 'bob'
 
             newUser.lastName = 'Doe123'
-            await expect(userCreator.create(newUser)).rejects.toThrow(/numbers are not allowed/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided name or last name are not valid/)
 
             newUser.lastName = ''
-            await expect(userCreator.create(newUser)).rejects.toThrow(/The selected field cannot be empty/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided name or last name are not valid/)
 
             newUser.lastName = 'Doe'
         })
@@ -49,16 +49,16 @@ describe('UserCreator', () => {
             const userCreator = new UserCreator(loginMockDb)
 
             newUser.email = 'email'
-            await expect(userCreator.create(newUser)).rejects.toThrow(/invalid email/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided email is not valid/)
 
             newUser.email = 'email  @gmail.com'
-            await expect(userCreator.create(newUser)).rejects.toThrow(/invalid email/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided email is not valid/)
 
             newUser.email = 'email@gmailcom'
-            await expect(userCreator.create(newUser)).rejects.toThrow(/invalid email/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided email is not valid/)
 
             newUser.email = ''
-            await expect(userCreator.create(newUser)).rejects.toThrow(/invalid email/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided email is not valid/)
 
             newUser.email = 'jhondoe@mail.com'
         })
@@ -68,16 +68,16 @@ describe('UserCreator', () => {
             const userCreator = new UserCreator(loginMockDb)
 
             newUser.phone = '00000000d000'
-            await expect(userCreator.create(newUser)).rejects.toThrow(/letters are not allowed/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided phone is not valid/)
 
             newUser.phone = '00000000@000'
-            await expect(userCreator.create(newUser)).rejects.toThrow(/special characters are not allowed/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided phone is not valid/)
 
             newUser.phone = '00000000 000'
-            await expect(userCreator.create(newUser)).rejects.toThrow(/special characters are not allowed/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided phone is not valid/)
 
             newUser.phone = ''
-            await expect(userCreator.create(newUser)).rejects.toThrow(/The selected field cannot be empty/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided phone is not valid/)
 
             newUser.phone = '12345678'
         })
@@ -87,10 +87,10 @@ describe('UserCreator', () => {
             const userCreator = new UserCreator(loginMockDb)
 
             newUser.password = ''
-            await expect(userCreator.create(newUser)).rejects.toThrow(/password must be longer than 8 characters/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided password is not valid/)
 
             newUser.password = 'abc@123455'
-            await expect(userCreator.create(newUser)).rejects.toThrow(/at least one uppercase character is required/)
+            await expect(userCreator.create(newUser)).rejects.toThrow(/The provided password is not valid/)
 
             newUser.phone = 'Abc@12344444'
         })

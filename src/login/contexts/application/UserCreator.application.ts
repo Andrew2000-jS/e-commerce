@@ -1,5 +1,15 @@
-import { UserEntity, UserRepository, IsUserExistService } from '@/login/contexts/domain'
-import { Crypter, emailParser, namesParser, passwordParser, phoneParser } from '@/login/shared'
+import {
+    UserRepository,
+    IsUserExistService,
+    User,
+    PrimitiveData as UserEntity,
+    UserName,
+    UserAge,
+    UserEmail,
+    UserPhone,
+    UserPassword
+} from '@/login/contexts/domain'
+import { Crypter } from '@/login/shared'
 
 export class UserCreator {
     private readonly _userRepository: UserRepository
@@ -10,23 +20,26 @@ export class UserCreator {
         this._isUserExistService = new IsUserExistService(this._userRepository)
     }
 
-    async create(user: UserEntity): Promise<UserEntity> {
+    async create(user: UserEntity): Promise<User> {
         const crypter = new Crypter()
-        const pass = await crypter.encrypt(passwordParser(user.password))
 
-        const newUser: UserEntity = {
-            name: namesParser(user.name),
-            lastName: namesParser(user.lastName),
-            email: emailParser(user.email),
+        const newUser = new User({
+            name: new UserName(user.name),
+            lastName: new UserName(user.lastName),
+            age: new UserAge(user.age),
+            email: new UserEmail(user.email),
             avatar: user.avatar,
             gender: user.gender,
-            password: pass,
-            phone: phoneParser(user.phone)
-        }
+            password: await crypter.encrypt(new UserPassword(user.password)._value),
+            phone: new UserPhone(user.phone)
+        })
 
-        await this._isUserExistService.isExist(newUser.email, newUser.phone)
+        await this._isUserExistService.isExist(
+            newUser.email._value,
+            newUser.phone._value
+        )
 
-        const createUser = await this._userRepository.create(newUser)
+        const createUser: User = await this._userRepository.create(newUser)
         return createUser
     }
 }

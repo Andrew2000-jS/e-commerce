@@ -1,4 +1,4 @@
-import { UserEntity, UserRepository, UserNotFoundException } from '@/login/contexts/domain'
+import { User, UserRepository, UserNotFoundException } from '@/login/contexts/domain'
 
 export class FindUserByEmailServie {
     private readonly _userRepository: UserRepository
@@ -7,7 +7,7 @@ export class FindUserByEmailServie {
         this._userRepository = userRepo
     }
 
-    async findEmail(email: string): Promise<UserEntity> {
+    async findEmail(email: string): Promise<User> {
         const foundUser = await this._userRepository.findByEmail(email)
         if (foundUser === undefined) {
             throw new UserNotFoundException()

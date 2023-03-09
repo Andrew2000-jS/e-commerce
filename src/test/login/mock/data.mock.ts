@@ -1,4 +1,4 @@
-import { UserEntity } from '@/login/contexts/domain'
+import { PrimitiveData as UserEntity } from '@/login/contexts/domain'
 
 enum Genders {
     Male = 'Male',
@@ -8,6 +8,7 @@ enum Genders {
 export const newUser: UserEntity = {
     name: 'Jhon',
     lastName: 'Doe',
+    age: 29,
     phone: '12345678',
     email: 'jhondoe@mail.com',
     avatar: 'https://vitest.dev/logo.svg',
@@ -18,6 +19,7 @@ export const newUser: UserEntity = {
 export const updatedUser: UserEntity = {
     name: 'Bill',
     lastName: 'Doe',
+    age: 10,
     phone: '12345678',
     email: 'billdoe@mail.com',
     avatar: 'https://vitest.dev/logo.svg',

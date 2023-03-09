@@ -9,12 +9,12 @@ describe('UserUpdater', () => {
         const userUpdater = new UserUpdater(loginMockDb)
 
         await userCreator.create(newUser)
-        const findUser = loginMockDb.db.find(u => u.email === newUser.email) // Jhon
-        expect(findUser?.name).toBe(newUser.name)
+        const findUser = loginMockDb.db.find(u => u.email._value === newUser.email) // Jhon
+        expect(findUser?.name._value).toBe(newUser.name)
 
         await userUpdater.update(updatedUser, 0)
-        const findUpdatedUser = loginMockDb.db.find(u => u.name === updatedUser.name) // Bill
-        expect(findUpdatedUser?.name).toBe(updatedUser.name)
+        const findUpdatedUser = loginMockDb.db.find(u => u.name._value === updatedUser.name) // Bill
+        expect(findUpdatedUser?.name._value).toBe(updatedUser.name)
     })
 
     describe('Fail cases', () => {
@@ -26,14 +26,14 @@ describe('UserUpdater', () => {
             await userCreator.create(newUser)
 
             updatedUser.name = 'Bill@'
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/special characters not allowed/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided name or last name are not valid/)
             updatedUser.name = 'Bill'
 
             updatedUser.lastName = 'Doe123'
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/numbers are not allowed/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided name or last name are not valid/)
 
             updatedUser.lastName = ''
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The selected field cannot be empty/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided name or last name are not valid/)
 
             updatedUser.lastName = 'Doe'
         })
@@ -46,16 +46,16 @@ describe('UserUpdater', () => {
             await userCreator.create(newUser)
 
             updatedUser.email = 'email'
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/invalid email/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided email is not valid/)
 
             updatedUser.email = 'email  @gmail.com'
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/invalid email/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided email is not valid/)
 
             updatedUser.email = 'email@gmailcom'
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/invalid email/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided email is not valid/)
 
             updatedUser.email = ''
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/invalid email/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided email is not valid/)
 
             updatedUser.email = 'billdoe@mail.com'
         })
@@ -68,16 +68,16 @@ describe('UserUpdater', () => {
             await userCreator.create(newUser)
 
             updatedUser.phone = '00000000d000'
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/letters are not allowed/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided phone is not valid/)
 
             updatedUser.phone = '00000000@000'
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/special characters are not allowed/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided phone is not valid/)
 
             updatedUser.phone = '00000000 000'
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/special characters are not allowed/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided phone is not valid/)
 
             updatedUser.phone = ''
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The selected field cannot be empty/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided phone is not valid/)
 
             updatedUser.phone = '12345678'
         })
@@ -90,10 +90,10 @@ describe('UserUpdater', () => {
             await userCreator.create(newUser)
 
             updatedUser.password = ''
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/password must be longer than 8 characters/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided password is not valid/)
 
             updatedUser.password = 'abc@123455'
-            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/at least one uppercase character is required/)
+            await expect(userUpdater.update(updatedUser, 0)).rejects.toThrow(/The provided password is not valid/)
 
             updatedUser.phone = 'ABC!22223333'
         })
